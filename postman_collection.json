@@ -1,0 +1,181 @@
+{
+  "info": {
+    "name": "Bookmark Manager API",
+    "description": "REST API for managing personal bookmarks with Google OAuth 2.0 authentication",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "your_token_here",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Get Google OAuth URL",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/auth/google/redirect/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "google", "redirect", ""]
+            },
+            "description": "Get the Google OAuth URL to initiate login flow"
+          }
+        },
+        {
+          "name": "Exchange Code for Token",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/api/auth/google/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "google", ""]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"authorization_code_from_google\"\n}"
+            },
+            "description": "Exchange Google OAuth authorization code for auth token"
+          }
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/auth/user/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "user", ""]
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}"
+              }
+            ],
+            "description": "Get the current authenticated user's profile"
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/api/auth/logout/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "logout", ""]
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}"
+              }
+            ],
+            "description": "Logout and delete auth token"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookmarks",
+      "item": [
+        {
+          "name": "List All Bookmarks",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/bookmarks/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "bookmarks", ""]
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}"
+              }
+            ],
+            "description": "List all bookmarks for the authenticated user"
+          }
+        },
+        {
+          "name": "Create Bookmark",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/api/bookmarks/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "bookmarks", ""]
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://github.com\",\n  \"title\": \"GitHub\",\n  \"description\": \"Where the world builds software\"\n}"
+            },
+            "description": "Create a new bookmark"
+          }
+        },
+        {
+          "name": "Get Bookmark by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/bookmarks/1/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "bookmarks", "1", ""]
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}"
+              }
+            ],
+            "description": "Get a specific bookmark by ID"
+          }
+        },
+        {
+          "name": "Delete Bookmark",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/api/bookmarks/1/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "bookmarks", "1", ""]
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}"
+              }
+            ],
+            "description": "Delete a bookmark by ID"
+          }
+        }
+      ]
+    }
+  ]
+}
