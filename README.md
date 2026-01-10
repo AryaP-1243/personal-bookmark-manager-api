@@ -189,30 +189,17 @@ curl -H "$AUTH" http://localhost:8000/api/auth/user/
 curl -X POST -H "$AUTH" http://localhost:8000/api/auth/logout/
 ```
 
-## Deployment to Railway
+## Deployment to Render.com (Recommended)
 
-### 1. Push to GitHub
-
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin <your-repo-url>
-git push -u origin main
-```
-
-### 2. Deploy on Railway
-
-1. Go to [Railway](https://railway.app)
-2. Create a new project → Deploy from GitHub repo
-3. Add a PostgreSQL database (optional but recommended)
-4. Set environment variables:
-   - `SECRET_KEY`: Generate a secure key
+1. Go to [Render.com](https://render.com) and create a new **Web Service**.
+2. Connect your GitHub repository.
+3. Set **Build Command**: `pip install -r requirements.txt`
+4. Set **Start Command**: `gunicorn bookmark_manager.wsgi`
+5. Add Environment Variables in the "Env" tab:
+   - `SECRET_KEY`: (any random string)
    - `DEBUG`: `False`
-   - `ALLOWED_HOSTS`: `your-app.railway.app`
-   - `GOOGLE_CLIENT_ID`: Your Google OAuth Client ID
-   - `GOOGLE_CLIENT_SECRET`: Your Google OAuth Secret
-   - `DATABASE_URL`: (auto-set if using Railway PostgreSQL)
+   - `ALLOWED_HOSTS`: `*`
+6. Click **Deploy**.
 
 ### 3. Configure OAuth for Production
 
