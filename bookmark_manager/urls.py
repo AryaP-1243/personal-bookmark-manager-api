@@ -6,9 +6,15 @@ from django.urls import path, include
 from django.http import JsonResponse
 
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
 def api_root(request):
     """API root endpoint with available endpoints info."""
-    return JsonResponse({
+    return Response({
         'message': 'Welcome to the Bookmark Manager API',
         'version': '1.0.0',
         'endpoints': {
