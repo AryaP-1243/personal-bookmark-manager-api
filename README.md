@@ -202,7 +202,7 @@ Since Render's free tier restricted shell access, I've added an **Automated Setu
    - `GOOGLE_CLIENT_SECRET`: (Your Client Secret from Google Console)
 3. Go to **Settings** -> **Start Command** and change it to:
    ```bash
-   python manage.py setup_live && gunicorn bookmark_manager.wsgi
+   python manage.py migrate && python manage.py setup_live && gunicorn bookmark_manager.wsgi
    ```
 4. Click **Save Changes**.
 
