@@ -189,21 +189,24 @@ curl -H "$AUTH" http://localhost:8000/api/auth/user/
 curl -X POST -H "$AUTH" http://localhost:8000/api/auth/logout/
 ```
 
-## Deployment Options
+## Deployment to Render.com (Free Tier)
 
-### Option 1: Render.com (Recommended for Free Tier)
+Since Render's free tier restricted shell access, I've added an **Automated Setup** command.
 
-As per requirements, Render.com is a valid backend host. It is often more reliable for initial free deployments.
-
-1. Go to [Render.com](https://render.com) and create a new **Web Service**.
-2. Connect your GitHub repository: `AryaP-1243/personal-bookmark-manager-api`
-3. Set **Build Command**: `pip install -r requirements.txt`
-4. Set **Start Command**: `gunicorn bookmark_manager.wsgi`
-5. Add Environment Variables in the "Env" tab:
-   - `SECRET_KEY`: (any random string)
+1. Go to **Render.com** -> Your Service -> **Environment**.
+2. Add these variables:
+   - `SECRET_KEY`: (any text)
    - `DEBUG`: `False`
    - `ALLOWED_HOSTS`: `*`
-6. Click **Deploy**.
+   - `GOOGLE_CLIENT_ID`: (Your Client ID from Google Console)
+   - `GOOGLE_CLIENT_SECRET`: (Your Client Secret from Google Console)
+3. Go to **Settings** -> **Start Command** and change it to:
+   ```bash
+   python manage.py setup_live && gunicorn bookmark_manager.wsgi
+   ```
+4. Click **Save Changes**.
+
+Render will redeploy. Once it finishes, your site domain, Google Auth, and Admin account (`admin` / `admin123`) will be automatically configured!
 
 ### Option 2: Railway.app
 
