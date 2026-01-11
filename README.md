@@ -189,10 +189,14 @@ curl -H "$AUTH" http://localhost:8000/api/auth/user/
 curl -X POST -H "$AUTH" http://localhost:8000/api/auth/logout/
 ```
 
-## Deployment to Render.com (Recommended)
+## Deployment Options
+
+### Option 1: Render.com (Recommended for Free Tier)
+
+As per requirements, Render.com is a valid backend host. It is often more reliable for initial free deployments.
 
 1. Go to [Render.com](https://render.com) and create a new **Web Service**.
-2. Connect your GitHub repository.
+2. Connect your GitHub repository: `AryaP-1243/personal-bookmark-manager-api`
 3. Set **Build Command**: `pip install -r requirements.txt`
 4. Set **Start Command**: `gunicorn bookmark_manager.wsgi`
 5. Add Environment Variables in the "Env" tab:
@@ -200,6 +204,17 @@ curl -X POST -H "$AUTH" http://localhost:8000/api/auth/logout/
    - `DEBUG`: `False`
    - `ALLOWED_HOSTS`: `*`
 6. Click **Deploy**.
+
+### Option 2: Railway.app
+
+1. Go to [Railway](https://railway.app)
+2. Create a new project → **Deploy from GitHub repo**
+3. Select your repository.
+4. Set the following **Environment Variables**:
+   - `SECRET_KEY`: (generate a secure key)
+   - `DEBUG`: `False`
+   - `ALLOWED_HOSTS`: `*`
+5. Note: New Railway accounts may require GitHub verification at [railway.com/verify](https://railway.com/verify) to unlock code deployments.
 
 ### 3. Configure OAuth for Production
 
